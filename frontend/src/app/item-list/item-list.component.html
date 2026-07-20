@@ -43,13 +43,21 @@
 </div>
 
 <ul class="item-grid" *ngIf="!loading && !error && items.length > 0">
-  <li class="item-card" *ngFor="let item of items">
+  <li class="item-card" [class]="item.kind" *ngFor="let item of items">
     <a [routerLink]="['/items', item.id]">
-      <span class="kind-badge" [class]="item.kind">{{ item.kind }}</span>
-      <span class="status-badge" [class]="item.status">{{ statusLabel(item.status) }}</span>
-      <h3>{{ item.title }}</h3>
-      <p class="location">{{ item.location }}</p>
-      <p class="case-number">{{ item.case_number }}</p>
+      <div class="card-media">
+        <img *ngIf="item.photo_url" [src]="'http://localhost:4000' + item.photo_url" [alt]="item.title" />
+        <span *ngIf="!item.photo_url" class="card-media-fallback">{{ item.category | slice:0:1 | uppercase }}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-badges">
+          <span class="kind-badge" [class]="item.kind">{{ item.kind }}</span>
+          <span class="status-badge" [class]="item.status">{{ statusLabel(item.status) }}</span>
+        </div>
+        <h3>{{ item.title }}</h3>
+        <p class="location">📍 {{ item.location }}</p>
+        <p class="case-number">{{ item.case_number }}</p>
+      </div>
     </a>
   </li>
 </ul>

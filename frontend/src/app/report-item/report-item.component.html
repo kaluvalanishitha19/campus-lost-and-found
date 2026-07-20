@@ -78,6 +78,17 @@
     </small>
   </label>
 
+  <label class="field photo-field">
+    <span>Photo (optional)</span>
+    <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)" />
+    <small class="error" *ngIf="photoError">{{ photoError }}</small>
+  </label>
+
+  <div class="photo-preview" *ngIf="previewUrl">
+    <img [src]="previewUrl" alt="Preview of the photo you selected" />
+    <button type="button" class="remove-photo" (click)="clearPhoto()">Remove photo</button>
+  </div>
+
   <div class="submit-error" *ngIf="submitError">{{ submitError }}</div>
 
   <button type="submit" [disabled]="submitting">

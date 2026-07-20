@@ -1,1 +1,14 @@
-<router-outlet></router-outlet>
+<header class="site-header">
+  <a routerLink="/" class="brand">
+    <span class="brand-mark">📍</span>
+    <span class="brand-name">Lost<span class="brand-accent">&amp;Found</span></span>
+  </a>
+  <nav class="site-nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Browse</a>
+    <a routerLink="/report" routerLinkActive="active">Report an item</a>
+  </nav>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

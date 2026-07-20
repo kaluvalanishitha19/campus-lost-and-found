@@ -1,1 +1,77 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root {
+  --bg: #f7f7fc;
+  --surface: #ffffff;
+  --ink: #14162b;
+  --ink-soft: #6b7080;
+
+  --violet: #7c3aed;
+  --blue: #3b82f6;
+  --brand-gradient: linear-gradient(135deg, var(--violet), var(--blue));
+
+  --coral: #f0615a;
+  --coral-soft: #fde6e5;
+  --mint: #2fbf8f;
+  --mint-soft: #e1f7ef;
+  --amber: #f5a623;
+  --amber-soft: #fdf0dc;
+  --slate-soft: #ecebfb;
+
+  --line: #e6e5f2;
+
+  --font-display: 'Poppins', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+body {
+  padding: 0 clamp(1.25rem, 4vw, 3rem) 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-display);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

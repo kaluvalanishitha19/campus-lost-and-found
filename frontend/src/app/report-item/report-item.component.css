@@ -77,3 +77,35 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.photo-field input[type="file"] {
+  padding: 0.5rem;
+  border: 2px dashed var(--line);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.photo-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.photo-preview img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.remove-photo {
+  padding: 0.5rem 1rem;
+  background: var(--coral-soft);
+  color: var(--coral);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  align-self: flex-start;
+}

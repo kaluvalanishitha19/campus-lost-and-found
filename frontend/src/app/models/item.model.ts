@@ -16,6 +16,7 @@ export interface Item {
   occurred_on: string;
   contact_name: string;
   contact_email: string;
+  photo_url: string | null;
   created_at: string;
 }
 
@@ -44,6 +45,7 @@ export interface NewItem {
   occurred_on: string;
   contact_name: string;
   contact_email: string;
+  photo?: File;
 }
 
 export const CATEGORIES: ItemCategory[] = [

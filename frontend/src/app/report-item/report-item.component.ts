@@ -19,6 +19,13 @@ export class ReportItemComponent {
   submitted = false;
   form: FormGroup;
 
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
+  photoError = '';
+
+  private readonly maxFileSize = 5 * 1024 * 1024; // 5MB, matches backend limit
+  private readonly allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
   constructor(
     private fb: FormBuilder,
     private itemsService: ItemsService,
@@ -40,6 +47,45 @@ export class ReportItemComponent {
     return this.form.get(name)!;
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    this.photoError = '';
+
+    if (!file) {
+      this.selectedFile = null;
+      this.previewUrl = null;
+      return;
+    }
+
+    if (!this.allowedTypes.includes(file.type)) {
+      this.photoError = 'Please choose a JPEG, PNG, or WebP image.';
+      input.value = '';
+      return;
+    }
+    if (file.size > this.maxFileSize) {
+      this.photoError = 'Image must be under 5MB.';
+      input.value = '';
+      return;
+    }
+
+    this.selectedFile = file;
+
+    // FileReader turns the file into a data URL so it can be previewed
+    // immediately, entirely client-side — nothing is uploaded yet.
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewUrl = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearPhoto(): void {
+    this.selectedFile = null;
+    this.previewUrl = null;
+    this.photoError = '';
+  }
+
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -49,11 +95,17 @@ export class ReportItemComponent {
     this.submitting = true;
     this.submitError = '';
 
-    this.itemsService.reportItem(this.form.getRawValue()).subscribe({
+    const payload = {
+      ...this.form.getRawValue(),
+      ...(this.selectedFile ? { photo: this.selectedFile } : {}),
+    };
+
+    this.itemsService.reportItem(payload).subscribe({
       next: () => {
         this.submitting = false;
         this.submitted = true;
         this.form.reset({ kind: 'found' });
+        this.clearPhoto();
         setTimeout(() => this.router.navigate(['/']), 1500);
       },
       error: (err) => {

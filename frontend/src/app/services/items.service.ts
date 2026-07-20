@@ -24,7 +24,16 @@ export class ItemsService {
   }
 
   reportItem(item: NewItem): Observable<Item> {
-    return this.http.post<Item>(this.baseUrl, item);
+    // A photo means the request body must be multipart/form-data, not JSON —
+    // FormData handles that encoding; the browser sets the right
+    // Content-Type header (including the multipart boundary) automatically.
+    const formData = new FormData();
+    Object.entries(item).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value as string | Blob);
+      }
+    });
+    return this.http.post<Item>(this.baseUrl, formData);
   }
 
   updateStatus(id: number, status: Item['status']): Observable<Item> {

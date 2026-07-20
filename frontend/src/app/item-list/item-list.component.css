@@ -115,3 +115,15 @@ button:hover {
   font-size: 0.75rem;
   margin-top: 0.5rem;
 }
+
+.report-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: #2b3a67;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-left: auto;
+}

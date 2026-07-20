@@ -1,0 +1,51 @@
+<a routerLink="/" class="back-link">&larr; Back to listings</a>
+
+<div class="state-message" *ngIf="loading">Loading item…</div>
+<div class="state-message error" *ngIf="error">{{ error }}</div>
+
+<article *ngIf="!loading && !error && item" class="item-detail">
+  <div class="badges">
+    <span class="kind-badge" [class]="item.kind">{{ item.kind }}</span>
+    <span class="status-badge" [class]="item.status">{{ item.status }}</span>
+  </div>
+
+  <h1>{{ item.title }}</h1>
+  <p class="case-number">Case {{ item.case_number }}</p>
+
+  <p class="description">{{ item.description }}</p>
+
+  <dl class="meta">
+    <dt>Category</dt>
+    <dd>{{ item.category }}</dd>
+    <dt>Location</dt>
+    <dd>{{ item.location }}</dd>
+    <dt>Date</dt>
+    <dd>{{ item.occurred_on | date:'mediumDate' }}</dd>
+    <dt>Reported by</dt>
+    <dd>{{ item.contact_name }} ({{ item.contact_email }})</dd>
+  </dl>
+
+  <div class="actions" *ngIf="item.status !== 'returned'">
+    <button
+      type="button"
+      *ngIf="item.status === 'open'"
+      [disabled]="updating"
+      (click)="markClaimed()"
+    >
+      {{ updating ? 'Updating…' : 'Mark as claimed' }}
+    </button>
+
+    <button
+      type="button"
+      *ngIf="item.status === 'claimed'"
+      [disabled]="updating"
+      (click)="markReturned()"
+    >
+      {{ updating ? 'Updating…' : 'Mark as returned' }}
+    </button>
+  </div>
+
+  <p class="returned-note" *ngIf="item.status === 'returned'">
+    This item has been returned to its owner.
+  </p>
+</article>

@@ -1,0 +1,101 @@
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: #555;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.state-message {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.state-message.error {
+  color: #b3261e;
+  background: #fdecea;
+}
+
+.item-detail {
+  max-width: 560px;
+}
+
+.badges {
+  margin-bottom: 0.75rem;
+}
+
+.kind-badge,
+.status-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.kind-badge.lost   { background: #fdecea; color: #b3261e; }
+.kind-badge.found  { background: #e6f4ea; color: #1e7a34; }
+
+.status-badge.open     { background: #eef1fd; color: #3049c9; }
+.status-badge.claimed  { background: #fff4e0; color: #a15c00; }
+.status-badge.returned { background: #eeeeee; color: #555; }
+
+h1 {
+  margin: 0.25rem 0;
+}
+
+.case-number {
+  color: #999;
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.meta dt {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.meta dd {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.actions button {
+  padding: 0.7rem 1.5rem;
+  background: #2b3a67;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.returned-note {
+  color: #666;
+  font-style: italic;
+}

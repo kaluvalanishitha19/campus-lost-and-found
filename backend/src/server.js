@@ -1,15 +1,41 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const { findItems, findItemById, createItem, updateStatus } = require('./items.repo');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve uploaded photos as static files, e.g. /uploads/169234-photo.jpg
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
 const CATEGORIES = ['electronics', 'keys', 'bags', 'clothing', 'id-cards', 'books', 'jewellery', 'other'];
 const KINDS = ['lost', 'found'];
 const STATUSES = ['open', 'claimed', 'returned'];
+
+// Multer config: save to disk with a collision-safe filename, reject non-images.
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, path.join(__dirname, '..', 'uploads')),
+  filename: (req, file, cb) => {
+    const unique = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    cb(null, `${unique}${path.extname(file.originalname)}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB cap
+  fileFilter: (req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowed.includes(file.mimetype)) {
+      return cb(new Error('Only JPEG, PNG, or WebP images are allowed'));
+    }
+    cb(null, true);
+  },
+});
 
 // GET /api/items?search=&kind=&category=&status=&sort=&page=
 app.get('/api/items', async (req, res, next) => {
@@ -31,8 +57,8 @@ app.get('/api/items/:id', async (req, res, next) => {
   }
 });
 
-// POST /api/items — report a lost or found item
-app.post('/api/items', async (req, res, next) => {
+// POST /api/items — report a lost or found item, with an optional photo
+app.post('/api/items', upload.single('photo'), async (req, res, next) => {
   try {
     const { title, description, category, kind, location, occurred_on, contact_name, contact_email } = req.body;
 
@@ -51,7 +77,12 @@ app.post('/api/items', async (req, res, next) => {
       return res.status(400).json({ error: 'contact_email must be a valid email address' });
     }
 
-    const item = await createItem({ title, description, category, kind, location, occurred_on, contact_name, contact_email });
+    const photo_url = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const item = await createItem({
+      title, description, category, kind, location, occurred_on,
+      contact_name, contact_email, photo_url,
+    });
     res.status(201).json(item);
   } catch (err) {
     next(err);
@@ -75,6 +106,9 @@ app.patch('/api/items/:id/status', async (req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
+  if (err.message && err.message.includes('images are allowed')) {
+    return res.status(400).json({ error: err.message });
+  }
   res.status(500).json({ error: 'Internal server error' });
 });
 

@@ -67,13 +67,13 @@ async function createItem(item) {
   const { rows } = await pool.query(
     `INSERT INTO items
        (case_number, title, description, category, kind, location,
-        occurred_on, contact_name, contact_email)
+        occurred_on, contact_name, contact_email, photo_url)
      VALUES (
        'LF-' || to_char(now(), 'YYYY') || '-' || lpad(nextval('items_id_seq')::text, 4, '0'),
-       $1, $2, $3, $4, $5, $6, $7, $8)
+       $1, $2, $3, $4, $5, $6, $7, $8, $9)
      RETURNING *`,
     [item.title, item.description, item.category, item.kind, item.location,
-     item.occurred_on, item.contact_name, item.contact_email]
+     item.occurred_on, item.contact_name, item.contact_email, item.photo_url || null]
   );
   return rows[0];
 }

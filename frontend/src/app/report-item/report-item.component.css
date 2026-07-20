@@ -1,0 +1,79 @@
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #555;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+h1 {
+  margin-bottom: 1.25rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 520px;
+}
+
+.field-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+input, select, textarea {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.error {
+  color: #b3261e;
+  font-size: 0.8rem;
+}
+
+.submit-error {
+  padding: 0.75rem 1rem;
+  background: #fdecea;
+  color: #b3261e;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.success-banner {
+  padding: 1rem;
+  background: #e6f4ea;
+  color: #1e7a34;
+  border-radius: 8px;
+}
+
+button {
+  align-self: flex-start;
+  padding: 0.7rem 1.5rem;
+  background: #2b3a67;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -1,0 +1,86 @@
+<a routerLink="/" class="back-link">&larr; Back to listings</a>
+
+<h1>Report an item</h1>
+
+<div class="success-banner" *ngIf="submitted">
+  Thanks — your report has been submitted. Redirecting you back to the list…
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!submitted">
+  <div class="field-row">
+    <label>
+      <input type="radio" formControlName="kind" value="found" /> I found something
+    </label>
+    <label>
+      <input type="radio" formControlName="kind" value="lost" /> I lost something
+    </label>
+  </div>
+
+  <label class="field">
+    <span>Title</span>
+    <input type="text" formControlName="title" placeholder="e.g. Black JBL headphones" />
+    <small class="error" *ngIf="field('title').invalid && field('title').touched">
+      <span *ngIf="field('title').hasError('required')">Title is required.</span>
+      <span *ngIf="field('title').hasError('minlength')">Title must be at least 3 characters.</span>
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Description</span>
+    <textarea formControlName="description" rows="3" placeholder="Distinguishing details — color, brand, condition…"></textarea>
+    <small class="error" *ngIf="field('description').invalid && field('description').touched">
+      <span *ngIf="field('description').hasError('required')">Description is required.</span>
+      <span *ngIf="field('description').hasError('minlength')">Please add at least 10 characters.</span>
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Category</span>
+    <select formControlName="category">
+      <option value="" disabled>Select a category</option>
+      <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+    </select>
+    <small class="error" *ngIf="field('category').invalid && field('category').touched">
+      Please select a category.
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Location</span>
+    <input type="text" formControlName="location" placeholder="e.g. Library, 3rd floor" />
+    <small class="error" *ngIf="field('location').invalid && field('location').touched">
+      Location is required.
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Date</span>
+    <input type="date" formControlName="occurred_on" />
+    <small class="error" *ngIf="field('occurred_on').invalid && field('occurred_on').touched">
+      Please select a date.
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Your name</span>
+    <input type="text" formControlName="contact_name" placeholder="e.g. Priya M." />
+    <small class="error" *ngIf="field('contact_name').invalid && field('contact_name').touched">
+      Name is required.
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Your email</span>
+    <input type="email" formControlName="contact_email" placeholder="you@campus.edu" />
+    <small class="error" *ngIf="field('contact_email').invalid && field('contact_email').touched">
+      <span *ngIf="field('contact_email').hasError('required')">Email is required.</span>
+      <span *ngIf="field('contact_email').hasError('email')">Please enter a valid email address.</span>
+    </small>
+  </label>
+
+  <div class="submit-error" *ngIf="submitError">{{ submitError }}</div>
+
+  <button type="submit" [disabled]="submitting">
+    {{ submitting ? 'Submitting…' : 'Submit report' }}
+  </button>
+</form>
